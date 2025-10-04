@@ -33,6 +33,7 @@ class FoamcutWB (Workbench):
         import Postprocess
         import MirrorGcode
         import WireProjection
+        import ExportESI
         
         self.examples = [] # A list of command names to create example project
         self.list = [
@@ -46,7 +47,8 @@ class FoamcutWB (Workbench):
             "Rotate", 
             "Route", 
             "MakeGcode",
-            "MirrorGcode"] # A list of command names created in the line above
+            "MirrorGcode",
+            "MakeESIcode"] # A list of command names created in the line above
         
         self.appendToolbar("FoamCut",self.list) # creates a new toolbar with your commands
         self.appendMenu("FoamCut",self.list) # creates a new menu

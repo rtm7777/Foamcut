@@ -13,7 +13,7 @@ Gui=FreeCADGui
 import FoamCutViewProviders
 import FoamCutBase
 import utilities
-from utilities import getWorkingPlanes, getAllSelectedObjects, getEdgesLinks
+from utilities import getWorkingPlanes, getAllSelectedObjects, getEdgesLinks, FC_KERF_DIRECTIONS
 
 class PathSection(FoamCutBase.FoamCutMovementBaseObject):
     def __init__(self, obj, edge_l, edge_r, jobName):
@@ -23,10 +23,17 @@ class PathSection(FoamCutBase.FoamCutMovementBaseObject):
         obj.addProperty("App::PropertyLinkSub",     "LeftEdge",             "Edges",    "Left Edge").LeftEdge = edge_l
         obj.addProperty("App::PropertyLinkSub",     "RightEdge",            "Edges",    "Right Edge").RightEdge = edge_r
         
-        obj.setEditorMode("CompensationDirection", 3)
-        
         obj.Proxy = self
         self.execute(obj)
+
+    def onDocumentRestored(self, obj):
+        touched = False
+        if hasattr(obj, "CompensationDirection") and obj.getEditorMode("CompensationDirection") and len(obj.getEditorMode("CompensationDirection")) > 0:   
+            obj.setEditorMode("CompensationDirection", 0)
+            print("{} - unlocking CompensationDirection property.".format(obj.Label))  
+            touched = True
+        if touched:
+            obj.recompute()
 
     def execute(self, obj): 
 
@@ -35,7 +42,7 @@ class PathSection(FoamCutBase.FoamCutMovementBaseObject):
             App.Console.PrintError("ERROR:\n Error updating Enter - active Job not found\n")
 
         wp = getWorkingPlanes(job, obj.Document)
-      
+
         leftEdge = obj.LeftEdge[0].getSubObject(obj.LeftEdge[1][0])
         rightEdge = obj.RightEdge[0].getSubObject(obj.RightEdge[1][0])
         
