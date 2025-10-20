@@ -2,7 +2,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [0.1.10] - TBA
+## [0.1.11] - TBA
+   
+### Added
+
+### Fixed
+
+## [0.1.10] - 2025-10-16
    
 ### Added
 - Add an option to change comment style. #8
@@ -14,6 +20,7 @@ All notable changes to this project will be documented in this file.
 - LinuxCNC expect to see % as the first character and the last of the program #11
 - MirrorGcode.py:43: SyntaxWarning: invalid escape sequence '\-' #13
 - After file reopening it's possible to select helper objects #14
+- Dynamic kerf compensation gives an error route in near parallel condition #18
 
 ## [0.1.9] - 2025-07-28
    
